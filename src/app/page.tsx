@@ -5,19 +5,16 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 import Header from "@/components/header"
-import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react";
 import Filters from "@/components/filters";
 import ProductCard from "@/components/productCard";
 import products from "@/data/values.json"
 import Footer from "@/components/footer";
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
-      <UserButton />
       <Header />
       <main className="mx-auto  px-6 py-0.5 mt-0">
         <InputGroup className="max-w-screen">

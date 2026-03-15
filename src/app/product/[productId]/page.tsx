@@ -11,6 +11,10 @@ import data from '@/data/values.json'
 import Link from "next/link";
 import Footer from "@/components/footer";
 import ProductPageCard from "@/components/productPageCard";
+import { nanoid } from "nanoid";
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+
 
 function Page() {
   var currentProduct = {
@@ -34,6 +38,9 @@ function Page() {
       }
     }
   }
+  const { isLoaded, isSignedIn, user } = useUser()
+ 
+  const chatId = `${user?.fullName}+${currentProduct.productId}`
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <Header />
@@ -49,7 +56,7 @@ function Page() {
         </div>
 
         <div>
-          <ProductPageCard currentProduct={currentProduct} />
+          <ProductPageCard currentProduct={currentProduct} chatId={chatId} />
         </div>
 
         <div className="border-t-2 mt-8 p-2 mb-2">

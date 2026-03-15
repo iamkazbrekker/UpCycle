@@ -1,4 +1,5 @@
 import { Heart, Share2 } from "lucide-react"
+import Link from "next/link"
 
 type Product = {
     productId: string
@@ -8,7 +9,7 @@ type Product = {
     date: string
     soldBy: string
 }
-function ProductPageCard({ currentProduct }: { currentProduct: Product }) {
+function ProductPageCard({ currentProduct, chatId }: { currentProduct: Product, chatId: String }) {
 
     return (
         <div className="border-2 rounded-2xl max-h-full my-8 flex flex-col">
@@ -30,14 +31,16 @@ function ProductPageCard({ currentProduct }: { currentProduct: Product }) {
                 </div>
             </div>
 
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col m-4">
                 <div className="p-2">
                     <h1 className="font-semibold">Posted By:</h1>
                     <h3>{currentProduct.soldBy}</h3>
                 </div>
-                <div className="border-2 border-[#3a77ff] rounded-full text-[#3a77ff] py-0.5 text-center w-[60%] self-center mt-2 mb-5">
-                    Chat With Seller
-                </div>
+                <Link href={`/chat/${currentProduct.soldBy}/${chatId}`} className="border-2 border-[#3a77ff] rounded-full text-[#3a77ff] py-1 px-3 w-[60%] text-center mt-2 mb-5 self-center">
+                    <div>
+                        Chat With Seller
+                    </div>
+                </Link>
             </div>
         </div>
     )
