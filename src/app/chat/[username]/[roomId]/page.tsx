@@ -1,6 +1,4 @@
 "use client"
-
-
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Flag, Mic, Paperclip, PhoneCall, Send, X } from "lucide-react"
 import Link from "next/link"
