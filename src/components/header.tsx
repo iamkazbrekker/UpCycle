@@ -57,7 +57,7 @@ function Header() {
                 </NavigationMenu>
                 <Link href="/">
                     <h1 className="font-bold text-2xl ml-0">
-                        UpScale
+                        UpCycle
                     </h1>
                 </Link>
             </header>

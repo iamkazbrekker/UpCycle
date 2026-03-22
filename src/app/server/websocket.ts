@@ -1,22 +1,8 @@
 import { WebSocketServer, WebSocket } from "ws"
 import mongoose from 'mongoose'
+import { connect } from "../../dbConfig/dbConfig"
 
-const MONGO_URI = process.env.MONGO_URI
-
-async function connectDB(){
-    if (!MONGO_URI){
-        console.error("[WS Server] Error: MONGO_URI not found")
-        return
-    }
-    if (mongoose.connection.readyState === 0){
-        try{
-            await mongoose.connect(MONGO_URI)
-            console.log("[WS] MongoDB connected")
-        }catch(err){
-            console.error('[WS] MongoDB connection error: ', err)
-        }
-    }
-}
+connect().catch(console.error)
 
 const messageSchema = new mongoose.Schema({
     roomId:{ type: String, required: true, index: true},
@@ -26,7 +12,7 @@ const messageSchema = new mongoose.Schema({
 })
 messageSchema.index({ roomId: 1, timestamp: 1})
 
-const Message = mongoose.models.Message || mongoose.model("Messages", messageSchema)
+const Message = mongoose.models.Messages || mongoose.model("Messages", messageSchema)
 
 interface RoomClient {
     ws: WebSocket
@@ -68,8 +54,7 @@ function broadcastToRoom(roomId: string, message: outgoingMessage, excludeWs?: W
 const PORT = 3001
 const wss = new WebSocketServer({ port: PORT })
 
-console.log(`[WS] running on port ${PORT}`)
-connectDB().catch(console.error)
+console.log(`[WS] Running on port ${PORT}`)
 
 wss.on("connection", (ws: WebSocket) => {
     let currentRoom: string | null = null
@@ -87,7 +72,7 @@ wss.on("connection", (ws: WebSocket) => {
                     if (!roomId || !username){
                         ws.send(JSON.stringify({
                             type: "error",
-                            text: "roomId and usernamee required"
+                            text: "roomId and username required"
                         }))
                         return
                     }
@@ -181,7 +166,7 @@ wss.on("connection", (ws: WebSocket) => {
             }
         }catch (err){
             console.log('[WS] error processing message: ', err)
-            ws.sennd(JSON.stringify({
+            ws.send(JSON.stringify({
                 type: "error",
                 text: "Failed to send message"
             }))
