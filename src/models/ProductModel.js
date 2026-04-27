@@ -10,8 +10,22 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    image: {
-        type: Buffer,
+    description: {
+        type: String,
+        default: ""
+    },
+    category: {
+        type: String,
+        default: "Other"
+    },
+    condition: {
+        type: String,
+        enum: ["New", "Like New", "Good", "Fair", "Poor"],
+        default: "Good"
+    },
+    imageUrl: {
+        type: String,
+        default: ""
     },
     listedBy: {
         type: String,
@@ -23,10 +37,10 @@ const ProductSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true
+        default: Date.now
     }
-})
+}, { timestamps: true })
 
-const Product = mongoose.models.products || mongoose.model("products")
+const Product = mongoose.models.products || mongoose.model("products", ProductSchema)
 
 export default Product
